@@ -184,6 +184,9 @@ jobs:
       - name: Clone YouTube-X
         run: git clone --quiet --depth=1 https://github.com/PoomSmart/YouTube-X.git
 
+      - name: Clone iSponsorBlock
+        run: git clone --quiet --depth=1 https://github.com/Galactic-Dev/iSponsorBlock.git
+
       - name: Clone YTVideoErrorAlert
         if: ${{ inputs.ytvid }}
         run: git clone --quiet --depth=1 https://github.com/PoomSmart/YTVideoErrorAlert.git
@@ -332,6 +335,12 @@ jobs:
           cd NoYTPremium
           make clean package DEBUG=0 FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
           mv packages/*.deb ${{ github.workspace }}/noytpre.deb
+
+      - name: Build iSponsorBlock
+        run: |
+          cd iSponsorBlock
+          make clean package DEBUG=0 FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless TARGET=iphone:clang:latest:13.0
+          mv packages/*.deb ${{ github.workspace }}/isponsorblock.deb
 
       - name: Build YTVideoErrorAlert
         if: ${{ inputs.ytvid }}
