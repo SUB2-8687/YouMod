@@ -12,7 +12,7 @@
     // if (ytlBool(@"noAds") && [ads containsObject:description]) {
     //    return [NSData data];
     // }
-
+    // horizontal-video-shelf.eml = Continue watching, breaking news - like in YTLite
     NSArray *shortsToRemove = @[@"shorts_shelf.eml", @"shorts_video_cell.eml", @"6Shorts", @"eml.shorts-shelf"];
     for (NSString *shorts in shortsToRemove) {
         if ([description containsString:shorts] && ![description containsString:@"history*"]) {
