@@ -871,7 +871,7 @@ static NSMutableArray *filterShelfSections(NSArray *array) {
         if ([section isKindOfClass:%c(YTIShelfRenderer)]) {
             NSString *desc = [section description];
             if (getShelfIdentifier(desc)) {
-                HBLogDebug(@"[YouMod] Removing Shelf: %@", getShelfIdentifier(desc));
+                NSLog(@"[YouMod] Removing Shelf: %@", getShelfIdentifier(desc));
                 return YES; // Kill the whole shelf
             }
         }
@@ -884,7 +884,7 @@ static NSMutableArray *filterShelfSections(NSArray *array) {
             YTIElementRenderer *element = [firstItem respondsToSelector:@selector(elementRenderer)] ? [firstItem elementRenderer] : nil;
             
             if (getShelfIdentifier([element description])) {
-                HBLogDebug(@"[YouMod] Removing Section Element: %@", getShelfIdentifier([element description]));
+                NSLog(@"[YouMod] Removing Section Element: %@", getShelfIdentifier([element description]));
                 return YES;
             }
         }
