@@ -1,6 +1,26 @@
 # YouMod
-The reason I created this repo is beacause of YTLite no longer free. So I'll try my best to recreate all the features as much as I can plus alternative tweaks conbine. The sources codes will be here soon.
+A tweak that's try to recreate features like in YTLite as much as possible. Contributors are welcome! ^^
+## Why I created this project?
+The reason I created this repo is beacause of YTLite no longer free. So I'll try my best to recreate all the features as much as I can plus alternative tweaks conbine.
+## Features
+This tweak can hide, remove things or elements in YouTube. Such as:
 
-**Right now the codes are currently in testing, you can open a new issue for feature request.**
+- Navaigation bar
+- Player
+- Shorts
+- Tab bar
+- And much more!
 
-**And I'm recommending you not to install this tweak untill I finally update this README with all the features.**
+## Supported YouTube version
+Up to the latest, this is the goal of this tweak. Any versions starting from 19.x - latest.
+
+## How to build the IPA?
+1. Click on **Sync fork**, and if your branch is out-of-date, click on **Update branch**.
+2. Navigate to **Actions** in your forked repository and select **Build IPA with tweaks**.
+3. Click the **Run workflow** button located on the right side.
+4. Get a decrypted .ipa file (I cannot provide this due to legal reasons.), then upload it to a file provider (e.g., filebin.net,filemail.com,catbox.moe or Dropbox is recommended). Paste the URL of the decrypted IPA file in the provided field. You can also change the BundleID and Display Name if desired.
+
+**NOTE:** Make sure to provide a direct download link to the file, not a link to a webpage. Otherwise, the process will fail.
+
+5. Make sure all inputs are correct, then click **Run workflow** to start the process.
+6. Wait for the build to finish. You can download the YouMod IPA from the releases section of your forked repo. (If you can't find the releases section, go to your forked repo and add /releases to the URL, i.e., github.com/yourusername/YouMod/releases.)
