@@ -37,6 +37,8 @@
 
 #define IS_ENABLED(k) [[NSUserDefaults standardUserDefaults] boolForKey:k]
 #define INTFORVAL(v) [[NSUserDefaults standardUserDefaults] integerForKey:v]
+// Appearance
+#define OLEDKeyboard @"YouModEnablesOLEDKeyboard"
 // Navigation bar
 #define HideYTLogo @"YouModHideYTLogo"
 #define YTPremiumLogo @"YouModYTPremiumLogo"
@@ -154,4 +156,23 @@
 
 @interface YTVideoQualitySwitchOriginalController (YouMod)
 @property (retain, nonatomic) YTVideoQualitySwitchRedesignedController *redesignedController;
+@end
+
+@interface UIView (Private)
+@property (nonatomic, assign, readonly) BOOL _mapkit_isDarkModeEnabled;
+- (UIViewController *)_viewControllerForAncestor;
+@end
+
+@interface UIKeyboard : UIView // Regular keyboard
++ (instancetype)activeKeyboard;
+@end
+
+@interface UIPredictionViewController : UIViewController // Keyboard with enabled predictions panel
+@end
+
+@interface UIKeyboardDockView : UIView // Dock under keyboard for notched devices
+@end
+
+@interface UIKBVisualEffectView : UIVisualEffectView
+@property (nonatomic, copy, readwrite) NSArray *backgroundEffects;
 @end

@@ -3,6 +3,27 @@
 
 Class YTILikeResponseClass, YTIDislikeResponseClass, YTIRemoveLikeResponseClass;
 
+// AccessGroupID
+static NSString *accessGroupID() {
+    NSDictionary *query = [NSDictionary dictionaryWithObjectsAndKeys:
+                           (__bridge NSString *)kSecClassGenericPassword, (__bridge NSString *)kSecClass,
+                           @"bundleSeedID", kSecAttrAccount,
+                           @"", kSecAttrService,
+                           (id)kCFBooleanTrue, kSecReturnAttributes,
+                           nil];
+    CFDictionaryRef result = nil;
+    OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)query, (CFTypeRef *)&result);
+    if (status == errSecItemNotFound) {
+        status = SecItemAdd((__bridge CFDictionaryRef)query, (CFTypeRef *)&result);
+        if (status != errSecSuccess) {
+            return nil;
+        }
+    }
+    NSString *accessGroup = [(__bridge NSDictionary *)result objectForKey:(__bridge NSString *)kSecAttrAccessGroup];
+    return accessGroup;
+}
+
+
 // YouTube-X (https://github.com/PoomSmart/YouTube-X)
 static BOOL isProductList(YTICommand *command) {
     if ([command respondsToSelector:@selector(yt_showEngagementPanelEndpoint)]) {
@@ -81,6 +102,65 @@ static NSMutableArray <YTIItemSectionRenderer *> *filteredArray(NSArray <YTIItem
     [newArray removeObjectsAtIndexes:removeIndexes];
     return newArray;
 }
+
+// OLEDKeyboard (https://github.com/dayanch96/OledKeyboard)
+static BOOL isDarkMode(UIView *view) {
+    if ([view respondsToSelector:@selector(_mapkit_isDarkModeEnabled)]) {
+        return view._mapkit_isDarkModeEnabled;
+    }
+    return view._viewControllerForAncestor.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark;
+}
+
+%group OLEDKeyboard
+%hook UIKeyboard
+- (void)displayLayer:(id)arg1 {
+    %orig;
+    self.backgroundColor = isDarkMode(self) ? [UIColor blackColor] : [UIColor clearColor];
+}
+%end
+
+%hook UIPredictionViewController
+- (id)_currentTextSuggestions {
+    UIKeyboard *keyboard = [%c(UIKeyboard) activeKeyboard];
+    if (isDarkMode(keyboard)) {
+        [self.view setBackgroundColor:[UIColor blackColor]];
+        keyboard.backgroundColor = [UIColor blackColor];
+    } else {
+        [self.view setBackgroundColor:[UIColor clearColor]];
+        keyboard.backgroundColor = [UIColor clearColor];
+    }
+    return %orig;
+}
+%end
+
+%hook UIKeyboardDockView
+- (void)layoutSubviews {
+    %orig;
+    self.backgroundColor = isDarkMode(self) ? [UIColor blackColor] : [UIColor clearColor];
+}
+%end
+
+// Since we can't hook a private framework class from UIKit, we check the class name through the nearest available from UIKit class
+%hook UIInputView
+- (void)layoutSubviews {
+    %orig;
+    if ([self isKindOfClass:NSClassFromString(@"TUIEmojiSearchInputView")] // Emoji searching panel
+     || [self isKindOfClass:NSClassFromString(@"_SFAutoFillInputView")]) { // Autofill password
+        self.backgroundColor = isDarkMode(self) ? [UIColor blackColor] : [UIColor clearColor];
+    }
+}
+%end
+
+%hook UIKBVisualEffectView
+- (void)layoutSubviews {
+    %orig;
+    if (isDarkMode(self)) {
+        self.backgroundEffects = nil;
+        self.backgroundColor = [UIColor blackColor];
+    }
+}
+%end
+%end
 
 // _ASDisplayView filters
 // This hook can hide A LOT of things
@@ -1122,6 +1202,63 @@ BOOL isTabSelected = NO;
 
 %end
 
+// AccessGroupID
+%hook SSOKeychainHelper
++ (id)accessGroup { return accessGroupID(); }
++ (id)sharedAccessGroup { return accessGroupID(); }
+%end
+
+%hook SSOFolsomKeychainUtils
+- (id)sharedAccessGroup { return accessGroupID(); }
+%end
+
+%hook GULKeychainStorage
+- (void)getObjectForKey:(id)key objectClass:(Class)objectClass accessGroup:(id)accessGroup completionHandler:(id)handler {
+    accessGroup = accessGroupID();
+    %orig;
+}
+- (void)setObject:(id)object forKey:(id)key accessGroup:(id)accessGroup completionHandler:(id)handler {
+    accessGroup = accessGroupID();
+    %orig;
+}
+- (void)removeObjectForKey:(id)key accessGroup:(id)accessGroup completionHandler:(id)handler {
+    accessGroup = accessGroupID();
+    %orig;
+}
+- (void)getObjectFromKeychainForKey:(id)key objectClass:(Class)objectClass accessGroup:(id)accessGroup completionHandler:(id)handler {
+    accessGroup = accessGroupID();
+    %orig;
+}
+- (id)keychainQueryWithKey:(id)key accessGroup:(id)accessGroup {
+    accessGroup = accessGroupID();
+    return %orig(key, accessGroup);
+}
+%end
+
+%hook GNPEncryptionConfiguration
+- (id)initWithKeychainAccessGroup:(id)arg {
+    arg = accessGroupID();
+    return %orig(arg);
+}
+- (id)keychainAccessGroup { return accessGroupID(); }
+%end
+
+%hook FIRInstallationsStore
+- (id)initWithSecureStorage:(id)arg1 accessGroup:(id)arg2 {
+    arg2 = accessGroupID();
+    return %orig(arg1, arg2);
+}
+- (id)accessGroup { return accessGroupID(); }
+%end
+
+%hook CHMConfiguration
+- (void)setKeychainAccessGroup:(id)arg {
+    arg = accessGroupID();
+    return %orig(arg);
+}
+- (id)keychainAccessGroup { return accessGroupID(); }
+%end
+
 // YTSlientVote (https://github.com/PoomSmart/YTSilentVote)
 %group SlientVote
 %hook YTInnerTubeResponseWrapper
@@ -1152,5 +1289,8 @@ BOOL isTabSelected = NO;
     }
     if (IS_ENABLED(HideLikeDislikeVotes)) {
         %init(SlientVote);
+    }
+    if (IS_ENABLED(OLEDKeyboard)) {
+        %init(OLEDKeyboard);
     }
 }

@@ -136,6 +136,29 @@ NSBundle *YouModBundle() {
     ];
     [sectionItems addObject:sourceCodes];
 
+    // Section 1
+    // Appearance
+    YTSettingsSectionItem *apper = [YTSettingsSectionItemClass itemWithTitle:nil
+        titleDescription:LOC(@"APPEARANCE")
+        accessibilityIdentifier:nil
+        detailTextBlock:nil
+        selectBlock:^BOOL (YTSettingsCell *cell, NSUInteger arg1) {
+            return NO;
+        }];
+    [sectionItems addObject:apper];
+
+    // OLED Keyboard
+    YTSettingsSectionItem *oledkeyboard = [YTSettingsSectionItemClass switchItemWithTitle:LOC(@"OLED_KEYBOARD")
+        titleDescription:LOC(@"OLED_KEYBOARD_DESC")
+        accessibilityIdentifier:nil
+        switchOn:IS_ENABLED(OLEDKeyboard)
+        switchBlock:^BOOL (YTSettingsCell *cell, BOOL enabled) {
+            [[NSUserDefaults standardUserDefaults] setBool:enabled forKey:OLEDKeyboard];
+            return YES;
+        }
+        settingItemId:0];
+    [sectionItems addObject:oledkeyboard];
+
     /*
     // Perference Mgr - NEEDS TO DO THE LOGIC
     YTSettingsSectionItem *github = [YTSettingsSectionItemClass itemWithTitle:nil
@@ -148,7 +171,7 @@ NSBundle *YouModBundle() {
     [sectionItems addObject:github];
     */ 
 
-    // Section 1
+    // Section 2
     // Navigation bar
     YTSettingsSectionItem *navbar = [YTSettingsSectionItemClass itemWithTitle:nil
         titleDescription:LOC(@"NAVBAR")
@@ -245,7 +268,7 @@ NSBundle *YouModBundle() {
         settingItemId:0];
     [sectionItems addObject:hidecastbuttonnav];
 
-    // Section 2
+    // Section 3
     // Feed
     YTSettingsSectionItem *feed = [YTSettingsSectionItemClass itemWithTitle:nil
         titleDescription:LOC(@"FEED")
@@ -316,7 +339,7 @@ NSBundle *YouModBundle() {
         settingItemId:0];
     [sectionItems addObject:hidesearchhis];
 
-    // Section 3
+    // Section 4
     // Player
     YTSettingsSectionItem *player = [YTSettingsSectionItemClass itemWithTitle:nil
         titleDescription:LOC(@"PLAYER")
@@ -665,7 +688,7 @@ NSBundle *YouModBundle() {
     [sectionItems addObject:hidedownloadbutton];
     */
 
-    // Section 3
+    // Section 5
     // Shorts
     YTSettingsSectionItem *shorts = [YTSettingsSectionItemClass itemWithTitle:nil
         titleDescription:LOC(@"SHORTS")
@@ -844,7 +867,7 @@ NSBundle *YouModBundle() {
         settingItemId:0];
     [sectionItems addObject:showshortsseekbar];
 
-    // Section 4
+    // Section 6
     // Tab bar
     YTSettingsSectionItem *tabbar = [YTSettingsSectionItemClass itemWithTitle:nil
         titleDescription:LOC(@"TABBAR")
@@ -940,7 +963,7 @@ NSBundle *YouModBundle() {
         settingItemId:0];
     [sectionItems addObject:hidesubscripttab];
 
-    // Section 5
+    // Section 7
     // Miscellaneous
     YTSettingsSectionItem *miscell = [YTSettingsSectionItemClass itemWithTitle:nil
         titleDescription:LOC(@"MISCELLANEOUS")

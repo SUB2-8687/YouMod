@@ -5,6 +5,10 @@
 "SOURCE_CODES" = "Source codes";
 "SOURCE_CODES_DESC" = "Take a look at the codes!";
 
+"APPEARANCE" = "Appearance";
+"OLED_KEYBOARD" = "OLED Keyboard";
+"OLED_KEYBOARD_DESC" = "Make the keyboard uses a pure black (OLED) color.";
+
 "NAVBAR" = "Navigation bar";
 "HIDE_YT_LOGO" = "Hide YouTube logo";
 "HIDE_YT_LOGO_DESC" = "Hide YouTube logo from the navigation bar.";
