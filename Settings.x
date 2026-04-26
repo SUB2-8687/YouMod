@@ -134,7 +134,7 @@ static NSString *GetCacheSize() { // YTLite - @dayanch96
         accessibilityIdentifier:nil
         detailTextBlock:nil
         selectBlock:^BOOL (YTSettingsCell *cell, NSUInteger arg1) {
-            return [%c(YTUIUtils) openURL:[NSURL URLWithString:@"https://github.com/Tonwalter888/YouMod/issues/new"]];
+            return [%c(YTUIUtils) openURL:[NSURL URLWithString:@"https://github.com/Tonwalter888/YouMod/issues/new/choose"]];
         }
     ];
     [sectionItems addObject:issues];
@@ -151,6 +151,53 @@ static NSString *GetCacheSize() { // YTLite - @dayanch96
     [sectionItems addObject:sourceCodes];
 
     // Section 1
+    // Settings perferences
+    YTSettingsSectionItem *settingsperf = [YTSettingsSectionItemClass itemWithTitle:nil
+        titleDescription:LOC(@"PERFER")
+        accessibilityIdentifier:nil
+        detailTextBlock:nil
+        selectBlock:^BOOL (YTSettingsCell *cell, NSUInteger arg1) {
+            return NO;
+        }];
+    [sectionItems addObject:settingsperf];
+
+    // Import
+    YTSettingsSectionItem *importset = [YTSettingsSectionItemClass itemWithTitle:LOC(@"IMPORT")
+        titleDescription:LOC(@"IMPORT_DESC")
+        accessibilityIdentifier:nil
+        detailTextBlock:nil
+        selectBlock:^BOOL (YTSettingsCell *cell, NSUInteger arg1) {
+            [[YouModPrefsManager sharedManager] importYouModSettingsFromVC:settingsViewController];
+            return YES;
+        }
+    ];
+    [sectionItems addObject:importset];
+
+    // Export
+    YTSettingsSectionItem *exportset = [YTSettingsSectionItemClass itemWithTitle:LOC(@"EXPORT")
+        titleDescription:LOC(@"EXPORT_DESC")
+        accessibilityIdentifier:nil
+        detailTextBlock:nil
+        selectBlock:^BOOL (YTSettingsCell *cell, NSUInteger arg1) {
+            [[YouModPrefsManager sharedManager] exportYouModSettingsFromVC:settingsViewController];
+            return YES;
+        }
+    ];
+    [sectionItems addObject:exportset];
+
+    // Restore defaults
+    YTSettingsSectionItem *restoreset = [YTSettingsSectionItemClass itemWithTitle:LOC(@"RESTORE")
+        titleDescription:LOC(@"RESTORE_DESC")
+        accessibilityIdentifier:nil
+        detailTextBlock:nil
+        selectBlock:^BOOL (YTSettingsCell *cell, NSUInteger arg1) {
+            [[YouModPrefsManager sharedManager] restoreYouModDefaults];
+            return YES;
+        }
+    ];
+    [sectionItems addObject:restoreset];
+
+    // Section 2
     // Cache
     YTSettingsSectionItem *cache = [YTSettingsSectionItemClass itemWithTitle:nil
         titleDescription:LOC(@"CACHE")
@@ -191,7 +238,7 @@ static NSString *GetCacheSize() { // YTLite - @dayanch96
         settingItemId:0];
     [sectionItems addObject:autocache];
 
-    // Section 2
+    // Section 3
     // Appearance
     YTSettingsSectionItem *apper = [YTSettingsSectionItemClass itemWithTitle:nil
         titleDescription:LOC(@"APPEARANCE")
@@ -226,7 +273,7 @@ static NSString *GetCacheSize() { // YTLite - @dayanch96
     [sectionItems addObject:github];
     */ 
 
-    // Section 3
+    // Section 4
     // Navigation bar
     YTSettingsSectionItem *navbar = [YTSettingsSectionItemClass itemWithTitle:nil
         titleDescription:LOC(@"NAVBAR")
@@ -323,7 +370,19 @@ static NSString *GetCacheSize() { // YTLite - @dayanch96
         settingItemId:0];
     [sectionItems addObject:hidecastbuttonnav];
 
-    // Section 4
+    // Hide iSponsorBlock button
+    YTSettingsSectionItem *hideisponsorblock = [YTSettingsSectionItemClass switchItemWithTitle:LOC(@"HIDE_ISPONSORBLOCK")
+        titleDescription:LOC(@"HIDE_ISPONSORBLOCK_DESC")
+        accessibilityIdentifier:nil
+        switchOn:IS_ENABLED(HideiSponsorBlock)
+        switchBlock:^BOOL (YTSettingsCell *cell, BOOL enabled) {
+            [[NSUserDefaults standardUserDefaults] setBool:enabled forKey:HideiSponsorBlock];
+            return YES;
+        }
+        settingItemId:0];
+    [sectionItems addObject:hideisponsorblock];
+
+    // Section 5
     // Feed
     YTSettingsSectionItem *feed = [YTSettingsSectionItemClass itemWithTitle:nil
         titleDescription:LOC(@"FEED")
@@ -382,7 +441,7 @@ static NSString *GetCacheSize() { // YTLite - @dayanch96
         settingItemId:0];
     [sectionItems addObject:hidesearchhis];
 
-    // Section 5
+    // Section 6
     // Player
     YTSettingsSectionItem *player = [YTSettingsSectionItemClass itemWithTitle:nil
         titleDescription:LOC(@"PLAYER")
@@ -597,6 +656,7 @@ static NSString *GetCacheSize() { // YTLite - @dayanch96
         settingItemId:0];
     [sectionItems addObject:hidecontentwarning];
 
+    /*
     // Hide related video on finish
     YTSettingsSectionItem *hiderelatevideo = [YTSettingsSectionItemClass switchItemWithTitle:LOC(@"HIDE_RELATE_VIDEO")
         titleDescription:LOC(@"HIDE_RELATE_VIDEO_DESC")
@@ -608,6 +668,7 @@ static NSString *GetCacheSize() { // YTLite - @dayanch96
         }
         settingItemId:0];
     [sectionItems addObject:hiderelatevideo];
+    */
 
     // Auto full screen
     YTSettingsSectionItem *autofullscreen = [YTSettingsSectionItemClass switchItemWithTitle:LOC(@"AUTO_FULLSCREEN")
@@ -731,7 +792,7 @@ static NSString *GetCacheSize() { // YTLite - @dayanch96
     [sectionItems addObject:hidedownloadbutton];
     */
 
-    // Section 6
+    // Section 7
     // Shorts
     YTSettingsSectionItem *shorts = [YTSettingsSectionItemClass itemWithTitle:nil
         titleDescription:LOC(@"SHORTS")
@@ -910,7 +971,7 @@ static NSString *GetCacheSize() { // YTLite - @dayanch96
         settingItemId:0];
     [sectionItems addObject:showshortsseekbar];
 
-    // Section 7
+    // Section 8
     // Tab bar
     YTSettingsSectionItem *tabbar = [YTSettingsSectionItemClass itemWithTitle:nil
         titleDescription:LOC(@"TABBAR")
@@ -1006,7 +1067,7 @@ static NSString *GetCacheSize() { // YTLite - @dayanch96
         settingItemId:0];
     [sectionItems addObject:hidesubscripttab];
 
-    // Section 8
+    // Section 9
     // Miscellaneous
     YTSettingsSectionItem *miscell = [YTSettingsSectionItemClass itemWithTitle:nil
         titleDescription:LOC(@"MISCELLANEOUS")
@@ -1113,7 +1174,7 @@ static NSString *GetCacheSize() { // YTLite - @dayanch96
         settingItemId:0];
     [sectionItems addObject:hidelikedislikevotes];
 
-    // More coming soon...
+    // More coming soon... (Almost done)
 
     if ([settingsViewController respondsToSelector:@selector(setSectionItems:forCategory:title:icon:titleDescription:headerHidden:)]) {
         YTIIcon *icon = [%c(YTIIcon) new];

@@ -23,6 +23,7 @@
 #import <YouTubeHeader/YTPlayerOverlay.h>
 #import <YouTubeHeader/YTPlayerOverlayProvider.h>
 #import <YouTubeHeader/YTReelModel.h>
+// #import <YouTubeHeader/YTAlertView.h>
 #import <dlfcn.h>
 
 // For Settings.x
@@ -73,7 +74,7 @@
 #define HideFullvidTitle @"YouModHideFullscreenVideoTitle"
 #define StopAutoplayVideo @"YouModStopAutoplayVideo"
 #define HideContentWarning @"YouModHideContentWarning"
-#define HideRelateVideo @"YouModHideRelateVideoOnFinish"
+// #define HideRelateVideo @"YouModHideRelateVideoOnFinish"
 #define AutoFullScreen @"YouModAutoFullScreen"
 #define OldQualityPicker @"YouModUseOldQualityPicker"
 #define HideLikeButton @"YouModHideLikeButton"
@@ -181,4 +182,12 @@
 
 @interface YTAppDelegate : UIResponder
 - (void)YouModAutoClearCache;
+@end
+
+// Custom perferences logics
+@interface YouModPrefsManager : NSObject <UIDocumentPickerDelegate>
++ (instancetype)sharedManager;
+- (void)exportYouModSettingsFromVC:(UIViewController *)vc;
+- (void)importYouModSettingsFromVC:(UIViewController *)vc;
+- (void)restoreYouModDefaults;
 @end

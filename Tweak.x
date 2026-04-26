@@ -233,16 +233,22 @@ static BOOL isDarkMode(UIView *view) {
 - (BOOL)isPremiumLogo { return IS_ENABLED(YTPremiumLogo) ? YES : %orig; }
 %end
 
+// NEW: Hide iSponsorBlock button
+%hook YTQTMButton
+- (id)barButtonWithImage:(UIImage *)image accessibilityLabel:(NSString *)label accessibilityIdentifier:(NSString *)id {
+    if (id && [id isEqualToString:@"sponsorBlockButton"] && IS_ENABLED(HideiSponsorBlock)) {
+        return nil;
+    }
+    return %orig;
+}
+%end
+
 // Hide Navigation Bar Buttons
 %hook YTRightNavigationButtons
 - (void)layoutSubviews {
     %orig;
     if (IS_ENABLED(HideNoti)) self.notificationButton.hidden = YES;
     if (IS_ENABLED(HideSearch)) self.searchButton.hidden = YES;
-    if (IS_ENABLED(HideiSponsorBlock)) {
-        self.sponsorBlockButton.hidden = YES;
-        self.sponsorBlockButton.frame = CGRectZero;
-    }
     for (UIView *subview in self.subviews) {
         if (IS_ENABLED(HideVoiceSearch) && [subview.accessibilityLabel isEqualToString:NSLocalizedString(@"search.voice.access", nil)]) subview.hidden = YES;
         if (IS_ENABLED(HideCastButtonNav) && [subview.accessibilityIdentifier isEqualToString:@"id.mdx.playbackroute.button"]) subview.hidden = YES;
@@ -691,6 +697,7 @@ static BOOL isDarkMode(UIView *view) {
 - (void)showConfirmAlert { IS_ENABLED(HideContentWarning) ? [self confirmAlertDidPressConfirm] : %orig; }
 %end
 
+/*
 // Dont Show Related Videos on Finish
 %hook YTFullscreenEngagementOverlayController
 - (void)setRelatedVideosVisible:(BOOL)arg1 { IS_ENABLED(HideRelateVideo) ? %orig(NO) : %orig; }
@@ -699,6 +706,11 @@ static BOOL isDarkMode(UIView *view) {
 %hook YTFullscreenEngagementOverlayView
 - (void)setRelatedVideosView:(id)arg { if (!IS_ENABLED(HideRelateVideo)) %orig; }
 %end
+
+// Localizations
+"HIDE_RELATE_VIDEO" = "Hide related videos";
+"HIDE_RELATE_VIDEO_DESC" = "Hide the grid of suggested related videos that appears when a video finishes playing.";
+*/
 
 /*
 %hook YTInlinePlayerBarContainerView

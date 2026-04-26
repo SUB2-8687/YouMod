@@ -5,6 +5,16 @@
 "SOURCE_CODES" = "Source codes";
 "SOURCE_CODES_DESC" = "Take a look at the codes!";
 
+"PERFER" = "Perferences";
+"IMPORT" = "Import settings";
+"IMPORT_DESC" = "Load your preferences from a .plist file.";
+"IMPORT" = "Export settings";
+"IMPORT_DESC" = "Send out your preferences to a .plist file.";
+"RESTORE" = "Restore settings";
+"RESTORE_DESC" = "Load default settings like in fresh install.";
+"ERROR_INVALID_FILE" = "Invaild file";
+"ERROR_NO_KEYS" = "No available keys to import/export";
+
 "CACHE" = "Cache";
 "CLEARCACHE" = "Clear cache";
 "DONE" = "Done";
@@ -76,8 +86,6 @@
 "STOP_AUTOPLAY_VIDEO_DESC" = "Prevent the video from playing automatically when opening the video.";
 "HIDE_CONTENT_WARNING" = "Skip content warning";
 "HIDE_CONTENT_WARNING_DESC" = "Automatically skip the sensitive content warning alert.";
-"HIDE_RELATE_VIDEO" = "Hide related videos";
-"HIDE_RELATE_VIDEO_DESC" = "Hide the grid of suggested related videos that appears when a video finishes playing.";
 "AUTO_FULLSCREEN" = "Auto fullscreen";
 "AUTO_FULLSCREEN_DESC" = "Automatically enter fullscreen mode when starting video playback.";
 "OLD_QUALITY_PICKER" = "Use old quality picker";
