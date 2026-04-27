@@ -164,7 +164,7 @@ static BOOL isDarkMode(UIView *view) {
 %end
 %end
 
-// OLED theme - implemented by @Tonwalter888
+// OLED theme
 %hook YTColor
 + (UIColor *)black0 { return IS_ENABLED(OLEDTheme) ? [self blackPure] : %orig; }
 + (UIColor *)black1 { return IS_ENABLED(OLEDTheme) ? [self blackPure] : %orig; }
@@ -174,50 +174,27 @@ static BOOL isDarkMode(UIView *view) {
 %end
 
 %hook YTCommonColorPalette
+- (UIColor *)baseBackground {
+    return IS_ENABLED(OLEDTheme) ? [UIColor blackColor] : %orig;
+}
 - (UIColor *)brandBackgroundSolid {
-    if (IS_ENABLED(OLEDTheme) && isDarkMode2) {
-        return [UIColor blackColor];
-    }
-    return %orig;
+    return IS_ENABLED(OLEDTheme) ? [UIColor blackColor] : %orig;
 }
 - (UIColor *)brandBackgroundPrimary {
-    if (IS_ENABLED(OLEDTheme) && isDarkMode2) {
-        return [UIColor blackColor];
-    }
-    return %orig;
+    return IS_ENABLED(OLEDTheme) ? [UIColor blackColor] : %orig;
 }
 - (UIColor *)brandBackgroundSecondary {
-    if (IS_ENABLED(OLEDTheme) && isDarkMode2) {
-        return [UIColor blackColor];
-    }
-    return %orig;
+    return IS_ENABLED(OLEDTheme) ? [[UIColor blackColor] colorWithAlphaComponent:0.9] : %orig;
 }
-/* Disabled due to some bugs
-- (UIColor *)background1 {
-    if (IS_ENABLED(OLEDTheme) && isDarkMode2) {
-        return [UIColor blackColor];
-    }
-    return %orig;
+- (UIColor *)raisedBackground {
+    return IS_ENABLED(OLEDTheme) ? [UIColor blackColor] : %orig;
 }
-- (UIColor *)background2 {
-    if (IS_ENABLED(OLEDTheme) && isDarkMode2) {
-        return [UIColor blackColor];
-    }
-    return %orig;
+- (UIColor *)staticBrandBlack {
+    return IS_ENABLED(OLEDTheme) ? [UIColor blackColor] : %orig;
 }
-- (UIColor *)background3 {
-    if (IS_ENABLED(OLEDTheme) && isDarkMode2) {
-        return [UIColor blackColor];
-    }
-    return %orig;
+- (UIColor *)generalBackgroundA {
+    return IS_ENABLED(OLEDTheme) ? [UIColor blackColor] : %orig;
 }
-- (UIColor *)baseBackground {
-    if (IS_ENABLED(OLEDTheme) && isDarkMode2) {
-        return [UIColor blackColor];
-    }
-    return %orig;
-}
-*/
 %end
 
 %hook YTCinematicContainerView
