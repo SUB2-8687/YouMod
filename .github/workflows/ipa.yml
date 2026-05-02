@@ -238,6 +238,12 @@ jobs:
           path: OpenYouTubeSafariExtension
           key: OpeninYT-${{ env.OPENYT_COMMIT }}
 
+      - name: Copy Open in YouTube (Safari Extension) files
+        if: ${{ steps.cache-openyt.outputs.cache-hit == 'true' }}
+        run: |
+          cd OpenYouTubeSafariExtension
+          mv *.appex ${{ github.workspace }}
+
       - name: Clone Open in YouTube (Safari Extension)
         if: ${{ steps.cache-openyt.outputs.cache-hit != 'true' }}
         run: |
