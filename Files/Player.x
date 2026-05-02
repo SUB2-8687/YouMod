@@ -81,6 +81,7 @@ static void YouModAddEndTime(YTPlayerViewController *self, YTSingleVideoControll
     %orig;
     if (IS_ENABLED(HideCastButtonPlayer)) self.playbackRouteButton.hidden = YES;    
 }
+- (BOOL)isFullscreenActionsVisible { return IS_ENABLED(HideFullAction) ? NO : %orig; }
 %end
 
 // No Endscreen Cards
@@ -151,8 +152,6 @@ static void YouModAddEndTime(YTPlayerViewController *self, YTSingleVideoControll
 
 // Disable Fullscreen Actions
 %hook YTFullscreenActionsView
-- (BOOL)enabled { return IS_ENABLED(HideFullAction) ? NO : %orig; }
-- (void)setEnabled:(BOOL)arg1 { IS_ENABLED(HideFullAction) ? %orig(NO) : %orig; }
 - (CGSize)sizeThatFits:(CGSize)size { return IS_ENABLED(HideFullAction) ? CGSizeMake(1, 35) : %orig; }
 %end
 
